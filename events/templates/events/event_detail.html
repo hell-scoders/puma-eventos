@@ -1,0 +1,23 @@
+{% extends 'global/base.html' %}
+{% block content %}
+    <div class="container mt-3">
+        <div class="section-header">
+          <h2>{{ object.title}}</h2>
+          <p>Organizado por {{ object.host }}</p>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <img src="https://dummyimage.com/600x400/000/fff.jpg&text=Event+Image" alt="Speaker 1" class="img-fluid">
+          </div>
+
+          <div class="col-md-6">
+            <div class="details">
+              <h2 class="lead">{{ object.start_date }}</h2>
+              <p>{{ object.description }}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+{% endblock %}

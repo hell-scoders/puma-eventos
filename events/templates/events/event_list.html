@@ -1,0 +1,16 @@
+{% extends 'global/base.html' %}
+{% block content %}
+    <div class="container">
+        <h1 class="mt-3">Events</h1>
+        {% for instance in object_list %}
+            <div class="card mb-3">
+                <img class="card-img-top" alt="Card image cap" src="https://dummyimage.com/600x400/000/fff.jpg&text=Event+Image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ instance.title }}</h5>
+                    <p class="card-text">{{ instance.description|truncatewords:30 }}</p>
+                    <a href="{% url 'events:detail' instance.id %}" class="btn btn-primary">Read more</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

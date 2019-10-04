@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Required static files -->
+    {% load static %}
+    <!-- Fontawesome CSS -->
+    <script src="https://kit.fontawesome.com/fc3525807b.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+    <title>{{ title }}</title>
+</head>
+<body>
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+
+        <!-- Navbar brand -->
+        <a class="navbar-brand mr-lg-5" href="{% url 'index' %}">
+            PUMA <i class="fas fa-cat"></i> EVENTOS
+        </a>
+
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <!-- Links -->
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item {{ index }}">
+                    <a class="nav-link"
+                       href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="nav-item {{ about }}">
+                    <a class="nav-link"
+                       href="{% url 'about' %}">About</a>
+                </li>
+                <li class="nav-item {{ events }}">
+                    <a class="nav-link"
+                       href="{% url 'events:list' %}">Events</a>
+                </li>
+
+                <!-- Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Actions</a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+            </ul>
+            <!-- Links -->
+            <form class="form-inline mb-md-0 mb-sm-2 mr-md-2 mr-sm-0 w-100">
+                <input class="form-control ml-md-auto mr-2 col-lg-8 col-sm-10" type="search" placeholder="Search"
+                       aria-label="Search">
+                <button class="btn btn-light my-2 my-sm-0" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            <div class="input-group input-group" style="max-width: 200px">
+                <button class="form-control login-btn btn btn-info" type="button" name="button">
+                    Log in
+                </button>
+                <button class="form-control signup-btn btn btn-info" type="button" name="button">
+                    Sign up
+                </button>
+            </div>
+        </div>
+        <!-- Collapsible content -->
+
+    </div>
+</nav>
+<!--Navbar-->
+{% block content %}
+{% endblock %}
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static "js/jquery.js" %}"></script>
+<script src="{% static "js/popper.js" %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<script type="text/javascript">
+    $(function () {
+        // Log in button
+        $(".login-btn").modalForm({formURL: "{% url 'accounts:login' %}"});
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        // Sign up button
+        $(".signup-btn").modalForm({formURL: "{% url 'accounts:signup' %}"});
+
+    });
+</script>
+</body>
+</html>
