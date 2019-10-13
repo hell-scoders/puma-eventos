@@ -1,11 +1,10 @@
 {% extends 'global/base.html' %}
+{% load social_share %}
 {% block content %}
     <div class="container mt-3">
         <div class="section-header">
           <h2>{{ object.title}}</h2>
           <p>Organizado por {{ object.host }}</p>
-        </div>
-
         <div class="row">
           <div class="col-md-6">
             <img src="https://dummyimage.com/600x400/000/fff.jpg&text=Event+Image" alt="Speaker 1" class="img-fluid">
@@ -15,6 +14,17 @@
             <div class="details">
               <h2 class="lead">{{ object.start_date }}</h2>
               <p>{{ object.description }}</p>
+							<p class="h4">
+								<button type="button" class="btn btn-outline-dark" title="Compartir en facebook">
+									{% post_to_facebook object_or_url "<i class='fab fa-facebook-f'></i>" %} 
+								</button>
+								<button type="button" class="btn btn-outline-dark" title="Compartir en twitter">
+									{% post_to_twitter "Checa este evento: {{object.title}}." object_or_url "<i class='fab fa-twitter'></i>" %}
+								</button>
+								<button type="button" class="btn btn-outline-dark" title="Compartir en linkedin">
+									{% post_to_linkedin object.title object_or_url "<i class='fab fa-linkedin-in'></i>" %}
+								</button>
+							</p>
             </div>
           </div>
 
