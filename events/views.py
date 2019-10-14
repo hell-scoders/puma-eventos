@@ -6,6 +6,11 @@ from django.views.generic import (
 )
 from .models import Event
 
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.template import loader
+
+
 
 class EventListView(ListView):
     queryset = Event.objects.all()
@@ -37,3 +42,13 @@ class EventUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['events'] = 'active'
         return context
+
+def map(request,pk,*args):
+    print(pk)
+    event= Event.objects.filter(id=pk).first()
+    print(event)
+    template= loader.get_template('events/event_map.html')
+    context ={
+        'event': event,
+    }
+    return HttpResponse(template.render(context,request))

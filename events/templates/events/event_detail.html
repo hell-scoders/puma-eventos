@@ -11,13 +11,19 @@
             <img src="https://dummyimage.com/600x400/000/fff.jpg&text=Event+Image" alt="Speaker 1" class="img-fluid">
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="details">
               <h2 class="lead">{{ object.start_date }}</h2>
               <p>{{ object.description }}</p>
+              <p> Fecha inicio: {{ object.start_date }}</p>
+              <p> Fecha fin: {{ object.end_date }}</p>
+              <p> Hora: {{ object.start_time}} </p>
+              <p> Capacidad: {{ object.capacity}} personas</p>
             </div>
           </div>
-
+          <div class="col-md-3">
+          <iframe src="/events/{{object.id}}/map" height=50%></iframe>
+        </div>
         </div>
       </div>
 {% endblock %}
