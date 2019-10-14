@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = "1d6&_i9z@fc4+yckjw0a9+l@a3sf71)v@_7!_f(1axvd3!382p"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'bootstrap_modal_forms',
     'crispy_forms',
     'widget_tweaks',
+    'django_social_share',
     # first party
     'accounts.apps.AccountsConfig',
     'events.apps.EventsConfig'
