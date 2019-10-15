@@ -1,0 +1,13 @@
+{% extends 'global/base.html' %}
+{% block content %}
+
+<div class="container">
+	<p class="h3">Nuevo Evento</p>
+</div>
+
+<form action= '.' method='POST'>{% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit" class="btn btn-primary">Crear evento</button>
+</form>
+
+{% endblock %}
