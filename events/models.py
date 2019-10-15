@@ -31,7 +31,7 @@ class Event(models.Model):
                                       default=False)
 
     def get_absolute_url(self):
-        return reverse("events:detail", kwargs={"id": self.id})
+        return reverse("events:detail", kwargs={"pk": self.id})
 
     def __str__(self):
         return f"{self.id} - {self.title} creado por {self.host}"
