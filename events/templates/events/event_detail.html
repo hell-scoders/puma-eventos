@@ -17,6 +17,13 @@
               <p>{{ object.description }}</p>
             </div>
           </div>
+          
+					<div class="col-md-3">
+            <div class="">
+							<a class="btn btn-info" href="{% url 'events:update' object.id %}" role="button">Editar</a>
+							<a class="btn btn-danger" href="{% url 'events:delete' object.id %}" role="button">Eliminar</a>
+            </div>
+          </div>
 
         </div>
       </div>
