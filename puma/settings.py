@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'bootstrap_modal_forms',
     'crispy_forms',
     'widget_tweaks',
+    'bootstrap_datepicker_plus',
     # first party
     'accounts.apps.AccountsConfig',
     'events.apps.EventsConfig'
@@ -126,3 +127,7 @@ STATIC_URL = '/static/'
 
 # Crispy forms template pack
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
