@@ -1,0 +1,23 @@
+{% extends 'global/base.html' %}
+{% block content%}
+{% if menu_item %}
+    <p>Found {{ menu_item|length }} events{{ menu_item|pluralize }}.</p>
+        <ul>
+            {% for s in menu_item %}
+            <li class="wow fadeInUp" data-wow-duration="300ms" data-wow-delay="300ms">
+                <div class="item">
+                    <div class="item-title">
+                    <h2>{{ s.menu_title }}</h2>
+                    <div class="border-bottom"></div>
+                    <span><a href=/events/{{s.id}}>{{s.title}}</a></span>
+                    </div>
+                    <p><center>{{s.description}}</center></p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+{% else %}
+    <p>No Menu_Items matched your search criteria.</p>
+{% endif %}
+
+{% endblock %}

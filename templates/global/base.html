@@ -62,14 +62,13 @@
                     </div>
                 </li>
             </ul>
-            <!-- Links -->
-            <form class="form-inline mb-md-0 mb-sm-2 mr-md-2 mr-sm-0 w-100">
-                <input class="form-control ml-md-auto mr-2 col-lg-8 col-sm-10" type="search" placeholder="Search"
-                       aria-label="Search">
-                <button class="btn btn-light my-2 my-sm-0" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
+            <form class="form-inline my-2 my-lg-0" action="/events/search/" method="get">
+              <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search"> 
+              <i class="fas fa-search"></i>
+              </button>
             </form>
+
             <div class="input-group input-group" style="max-width: 200px">
                 <button class="form-control login-btn btn btn-info" type="button" name="button">
                     Log in
