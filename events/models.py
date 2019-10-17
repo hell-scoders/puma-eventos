@@ -4,19 +4,18 @@ from django.urls import reverse
 
 User = get_user_model()
 
-
 class Event(models.Model):
-    title = models.CharField(max_length=50)
-    description = models.TextField()
+    title = models.CharField('Titulo del evento',max_length=50)
+    description = models.TextField('Descripción')
     latitude = models.DecimalField(decimal_places=6, max_digits=9)
     longitude = models.DecimalField(decimal_places=6, max_digits=9)
-    start_date = models.DateField('fecha en que comienza el evento')
-    end_date = models.DateField('fecha en que termina el evento',
+    start_date = models.DateField('Fecha en que comienza el evento')
+    end_date = models.DateField('Fecha en que termina el evento',
                                 null=True)
-    start_time = models.TimeField('hora en que comienza el evento')
-    end_time = models.TimeField('hora en que termina el evento',
+    start_time = models.TimeField('Hora en que comienza el evento')
+    end_time = models.TimeField('Hora en que termina el evento',
                                 null=True)
-    capacity = models.IntegerField('capacidad del evento')
+    capacity = models.IntegerField('Capacidad del evento')
     host = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              verbose_name='Persona o entidad que es host del evento')
@@ -25,9 +24,9 @@ class Event(models.Model):
                                      verbose_name='Evento originario',
                                      blank=True,
                                      null=True)
-    is_recurring = models.BooleanField('el evento es recurrente',
+    is_recurring = models.BooleanField('El evento es recurrente',
                                        default=False)
-    is_full_day = models.BooleanField('el evento no tiene un horario definido',
+    is_full_day = models.BooleanField('El evento no tiene un horario definido',
                                       default=False)
 
     def get_absolute_url(self):
@@ -35,6 +34,8 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.id} - {self.title} creado por {self.host}"
+
+
 
 
 # es necesario leer el siguiente artículo para entender esta estructura de datos:

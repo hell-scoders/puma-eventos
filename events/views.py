@@ -35,6 +35,7 @@ class EventDeleteView(DeleteView):
     def get_success_url(self):
         return reverse('events:list')
 
+
 class EventUpdateView(UpdateView):
     template_name = 'events/event_edit.html'
     form_class = EventModelForm

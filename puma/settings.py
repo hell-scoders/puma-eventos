@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'bootstrap4',
-    'bootstrap_datepicker_plus',
     'fontawesome_5',
+    'bootstrap_datepicker_plus',
     # first party
     'accounts.apps.AccountsConfig',
     'events.apps.EventsConfig'
