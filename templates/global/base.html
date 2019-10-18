@@ -1,8 +1,8 @@
-{% load bootstrap4 %} {# import bootstrap4/bootstrap3 #}
-{% load fontawesome_5 %}
 <!doctype html>
 <html lang="en">
 <head>
+    {% load bootstrap4 %} {# import bootstrap4/bootstrap3 #}
+    {% load fontawesome_5 %}
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -102,12 +102,11 @@
 </nav>
 <!--Navbar-->
 <div class="container mt-3">
-    {% include 'partials/messages.html' %}
+    {% bootstrap_messages %}
 </div>
 {% block content %}
 {% endblock %}
 <!-- JS -->
-<script src="{% static "js/popper.js" %}"></script>
 <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
 <script type="text/javascript">
     $.urlParam = function (name) {
