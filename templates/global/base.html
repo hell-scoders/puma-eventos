@@ -1,3 +1,5 @@
+{% load bootstrap4 %} {# import bootstrap4/bootstrap3 #}
+{% load fontawesome_5 %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,10 +9,12 @@
     <!-- Required static files -->
     {% load static %}
     <!-- Fontawesome CSS -->
-    <script src="https://kit.fontawesome.com/fc3525807b.js" crossorigin="anonymous"></script>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+    {% fontawesome_5_static %}
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
     <title>{{ title }}</title>
+    {% bootstrap_css %} {# Embed Bootstrap CSS #}
+    {% bootstrap_javascript jquery='full' %} {# Embed Bootstrap JS+jQuery #}
 </head>
 <body>
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
@@ -21,10 +25,9 @@
 <!--Navbar-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-
         <!-- Navbar brand -->
-        <a class="navbar-brand mr-lg-5" href="{% url 'index' %}">
-            PUMA <i class="fas fa-cat"></i> EVENTOS
+        <a class="navbar-brand mr-lg-5 text-primary" href="{% url 'index' %}">
+            PUMA {% fa5_icon 'cat' 'fas' %} EVENTOS
         </a>
 
         <!-- Collapse button -->
@@ -50,54 +53,80 @@
                     <a class="nav-link"
                        href="{% url 'events:list' %}">Events</a>
                 </li>
-
-                <!-- Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Actions</a>
-                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item {{ profile }}">
+                        <a class="nav-link"
+                           href="{% url 'accounts:profile' %}">Profile</a>
+                    </li>
+                {% endif %}
             </ul>
             <!-- Links -->
-            <form class="form-inline mb-md-0 mb-sm-2 mr-md-2 mr-sm-0 w-100">
-                <input class="form-control ml-md-auto mr-2 col-lg-8 col-sm-10" type="search" placeholder="Search"
-                       aria-label="Search">
-                <button class="btn btn-light my-2 my-sm-0" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-            <div class="input-group input-group" style="max-width: 200px">
-                <button class="form-control login-btn btn btn-info" type="button" name="button">
-                    Log in
-                </button>
-                <button class="form-control signup-btn btn btn-info" type="button" name="button">
-                    Sign up
-                </button>
+            <div class="btn-toolbar mt-2 text-light" role="toolbar">
+                <form action="{% url 'events:list' %}" class="mr-2 mb-2">
+                    <div class="input-group" role="group">
+                        <input type="search" class="form-control" placeholder="Search events..."
+                               aria-label="Search events" id="search" name="search">
+                        <div class="input-group-append">
+                            <button class="btn btn-light" type="submit">
+                                {% fa5_icon 'search' 'fas' %}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="btn-group mb-2" role="group">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'accounts:logout' %}" class="btn btn-danger">Log out</a>
+                        <button type="button"
+                                class="btn btn-light dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            {% if user.is_superuser %}
+                                <a class="dropdown-item" href="{% url 'accounts:create_staff_user' %}">Add a Host</a>
+                            {% endif %}
+                            {% if user.is_staff %}
+                                <a class="dropdown-item" href="#">Create event</a>
+                            {% endif %}
+                            <a class="dropdown-item" href="#">My events</a>
+                        </div>
+                    {% else %}
+                        <a class="login-btn btn btn-info">Log in</a>
+                        <a class="signup-btn btn btn-info">Sign up</a>
+                    {% endif %}
+                </div>
+                <!-- Collapsible content -->
             </div>
         </div>
-        <!-- Collapsible content -->
-
     </div>
 </nav>
 <!--Navbar-->
+<div class="container mt-3">
+    {% include 'partials/messages.html' %}
+</div>
 {% block content %}
 {% endblock %}
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="{% static "js/jquery.js" %}"></script>
+<!-- JS -->
 <script src="{% static "js/popper.js" %}"></script>
-<script src="{% static "js/bootstrap.js" %}"></script>
 <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
 <script type="text/javascript">
+    $.urlParam = function (name) {
+        let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results == null) {
+            return null;
+        } else {
+            return results[1] || 0;
+        }
+    };
     $(function () {
         // Log in button
-        $(".login-btn").modalForm({formURL: "{% url 'accounts:login' %}"});
+        let loginBtn = $(".login-btn");
+        let next = $.urlParam('next');
+        loginBtn.modalForm({formURL: "{% url 'accounts:login' %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}"});
+        if (next) {
+            loginBtn.click();
+        }
     });
-</script>
-<script type="text/javascript">
     $(function () {
         // Sign up button
         $(".signup-btn").modalForm({formURL: "{% url 'accounts:signup' %}"});

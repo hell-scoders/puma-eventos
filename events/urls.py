@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import EventListView, EventDetailView, EventDeleteView, EventUpdateView
 
 app_name = "events"
