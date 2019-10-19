@@ -46,30 +46,38 @@
                     <a class="nav-link"
                        href="{% url 'about' %}">About</a>
                 </li>
-                <li class="nav-item {{ events }}">
-                    <a class="nav-link"
-                       href="{% url 'events:list' %}">Events</a>
-                </li>
+								{% if user.is_authenticated and user.is_organizer %}
+                	<!-- Dropdown -->
+                		<li class="nav-item dropdown">
+                    	<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Events</a>
+                    	<div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+												{% if user.is_unam_community %}
+                        	<a class="dropdown-item" href="{% url 'events:list' %}">See Events</a>
+												{% endif %}
+                        <a class="dropdown-item" href="{% url 'events:my_events' %}">My Events</a>
+                        <a class="dropdown-item" href="{% url 'events:create' %}">New Event</a>
+                    	</div>
+                		</li>
+            			</ul>
 
-                <!-- Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Actions</a>
-                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-            </ul>
+								{% else %}						
+                		<li class="nav-item {{ events }}">
+                    	<a class="nav-link" href="{% url 'events:list' %}">Events</a>
+                		</li>
+									</ul>
+								{% endif %}
+
             <!-- Links -->
-            <form class="form-inline mb-md-0 mb-sm-2 mr-md-2 mr-sm-0 w-100">
+						{% if user.is_authenticated and user.is_unam_community %}
+            	<form class="form-inline mb-md-0 mb-sm-2 mr-md-2 mr-sm-0 w-100">
                 <input class="form-control ml-md-auto mr-2 col-lg-8 col-sm-10" type="search" placeholder="Search"
-                       aria-label="Search">
+                 	aria-label="Search">
                 <button class="btn btn-light my-2 my-sm-0" type="submit">
-                    <i class="fas fa-search"></i>
+                	<i class="fas fa-search"></i>
                 </button>
-            </form>
+            	</form>
+						{% endif %}
             <div class="input-group input-group" style="max-width: 200px">
                 <button class="form-control login-btn btn btn-info" type="button" name="button">
                     Log in

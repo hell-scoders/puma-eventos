@@ -24,6 +24,8 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(max_length=255, unique=True)),
                 ('is_confirmed', models.BooleanField(default=False, help_text='Designates whether the user has confirmed its email.', verbose_name='confirmed status')),
                 ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
+                ('is_organizer',models.BooleanField(default=False,verbose_name= 'organizer status')),
+                ('is_unam_community',models.BooleanField(default=False,verbose_name= 'unam_community status')),
                 ('is_active', models.BooleanField(default=False, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active status')),
                 ('date_joined', models.DateTimeField(auto_now_add=True, verbose_name='date joined')),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),

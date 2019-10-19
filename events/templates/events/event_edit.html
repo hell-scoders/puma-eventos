@@ -1,78 +1,35 @@
 {% extends 'global/base.html' %}
+{% load widget_tweaks %}
+{% load crispy_forms_field %}
 {% block content %}
 
 <div class="container">
-	<p class="h3">Editar Evento</p>
+	<p class="h3">Edit event</p>
+
 
 	<form action='.' method='POST'>{% csrf_token %}
-  	<div class="form-group">
-			{{ form.title.errors }}
-			{{ form.title.label_tag }}
-			{{form.title}}
-  	</div>
-  	<div class="form-group">
-			{{ form.description.errors }}
-			{{ form.description.label_tag }}
-			{{form.description}}
-  	</div>
-  	<div class="form-group">
-			{{ form.latitude.errors }}
-			{{ form.latitude.label_tag }}
-			{{form.latitude}}
-  	</div>
-  	<div class="form-group">
-			{{ form.longitude.errors }}
-			{{ form.longitude.label_tag }}
-			{{form.longitude}}
-  	</div>
-  	<div class="form-group">
-			{{ form.start_date.errors }}
-			{{ form.start_date.label_tag }}
-			{{form.start_date}}
-  	</div>
-  	<div class="form-group">
-			{{ form.end_date.errors }}
-			{{ form.end_date.label_tag }}
-			{{form.end_date}}
-  	</div>
-  	<div class="form-group">
-			{{ form.start_time.errors }}
-			{{ form.start_time.label_tag }}
-			{{form.start_time}}
-  	</div>
-  	<div class="form-group">
-			{{ form.end_time.errors }}
-			{{ form.end_time.label_tag }}
-			{{form.end_time}}
-  	</div>
-  	<div class="form-group">
-			{{ form.capacity.errors }}
-			{{ form.capacity.label_tag }}
-			{{form.capacity}}
-  	</div>
-  	<div class="form-group">
-			{{ form.host.errors }}
-			{{ form.host.label_tag }}
-			{{form.host}}
-  	</div>
-  	<div class="form-group">
-			{{ form.parent_event.errors }}
-			{{ form.parent_event.label_tag }}
-			{{form.parent_event}}
-  	</div>
-  	<div class="form-group form-check">
-			{{ form.is_recurring.errors }}
-			{{form.is_recurring}}
-			{{ form.is_recurring.label_tag }}
-  	</div>
-  	<div class="form-group form-check">
-			{{ form.is_full_day.errors }}
-			{{form.is_full_day}}
-			{{ form.is_full_day.label_tag }}
-  	</div>
-  	<button type="submit" class="btn btn-primary">Actualizar</button>
-		<a class="btn btn-danger" href="../" role="button">Cancelar</a>
+	 {% for field in form %}
+	 					{% if field|is_checkbox %}
+							<div class="form-group form-check">
+                {% render_field field class="form-check-input" %}
+                <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+							</div>
+						{% else %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% render_field field class="form-control" placeholder=field.label %}
+                <div class="{% if field.errors %} invalid{% endif %}">
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger" role="alert">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+						{% endif %}
+        {% endfor %}
+  	<button type="submit" class="btn btn-primary">Save</button>
+		<a class="btn btn-danger" href="../" role="button">Cancel</a>
 	</form>
+
 </div>
 
 {% endblock %}
