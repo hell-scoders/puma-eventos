@@ -11,10 +11,11 @@ class Event(models.Model):
     longitude = models.DecimalField(decimal_places=6, max_digits=9)
     start_date = models.DateField('Fecha en que comienza el evento')
     end_date = models.DateField('Fecha en que termina el evento',
-                                null=True)
-    start_time = models.TimeField('Hora en que comienza el evento')
+                                null=True, blank=True)
+    start_time = models.TimeField('Hora en que comienza el evento',
+                                  null=True, blank=True)
     end_time = models.TimeField('Hora en que termina el evento',
-                                null=True)
+                                null=True, blank=True)
     capacity = models.IntegerField('Capacidad del evento')
     host = models.ForeignKey(User,
                              on_delete=models.CASCADE,
@@ -28,7 +29,6 @@ class Event(models.Model):
                                        default=False)
     is_full_day = models.BooleanField('El evento no tiene un horario definido',
                                       default=False)
-
     def get_absolute_url(self):
         return reverse("events:detail", kwargs={"pk": self.id})
 

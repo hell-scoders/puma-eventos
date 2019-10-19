@@ -44,6 +44,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
         help_text='Designates whether the user can log into this admin site.',
     )
+    is_organizer = models.BooleanField(
+        'organizer status',
+        default=False,
+    )
+    is_unam_community = models.BooleanField(
+        'unam_community status',
+        default=True,
+    )
     is_active = models.BooleanField(
         'active status',
         default=False,
