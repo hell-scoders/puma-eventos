@@ -20,8 +20,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=50)),
                 ('description', models.TextField()),
-                ('latitude', models.DecimalField(decimal_places=6, max_digits=9)),
-                ('longitude', models.DecimalField(decimal_places=6, max_digits=9)),
+                ('address', models.CharField()),
                 ('start_date', models.DateField(verbose_name='fecha en que comienza el evento')),
                 ('end_date', models.DateField(null=True, blank=True, verbose_name='fecha en que termina el evento')),
                 ('start_time', models.TimeField(null=True, blank=True, verbose_name='hora en que comienza el evento')),
@@ -31,6 +30,7 @@ class Migration(migrations.Migration):
                 ('is_full_day', models.BooleanField(default=False, verbose_name='el evento no tiene un horario definido')),
                 ('host', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Persona o entidad que es host del evento')),
                 ('parent_event', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='events.Event', verbose_name='Evento originario')),
+                ('image', models.ImageField(blank=True, null=True,verbose_name='Dirección del evento')),
             ],
         ),
         migrations.CreateModel(
