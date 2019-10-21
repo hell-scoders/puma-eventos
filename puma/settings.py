@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'bootstrap_datepicker_plus',
+    'django_social_share',
     'easy_maps',
     # first party
     'accounts.apps.AccountsConfig',
