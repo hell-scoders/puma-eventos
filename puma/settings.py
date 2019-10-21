@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'fontawesome_5',
     'bootstrap_datepicker_plus',
+    'django_social_share',
     'easy_maps',
     # first party
     'accounts.apps.AccountsConfig',
