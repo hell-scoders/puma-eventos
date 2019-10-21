@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'bootstrap_datepicker_plus',
+    'easy_maps',
     # first party
     'accounts.apps.AccountsConfig',
     'events.apps.EventsConfig'
@@ -58,6 +59,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'puma.urls'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 TEMPLATES = [
     {
@@ -131,3 +135,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 BOOTSTRAP4 = {
     'include_jquery': True,
 }
+
+# Google Maps settings
+EASY_MAPS_GOOGLE_KEY = os.environ["MAPS_KEY"]
+EASY_MAPS_ZOOM = 16
+EASY_MAPS_LANGUAGE = 'es'
