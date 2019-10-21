@@ -2,6 +2,8 @@ from django import forms
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 from datetime import date
 
+from easy_maps.widgets import AddressWithMapWidget
+
 from .models import Event
 
 
@@ -11,8 +13,7 @@ class EventModelForm(forms.ModelForm):
         fields=[
             'title',
             'description',
-            'latitude',
-            'longitude',
+            'address',
             'start_date',
             'end_date',
             'start_time',
@@ -21,6 +22,7 @@ class EventModelForm(forms.ModelForm):
             'parent_event',
             'is_recurring',
             'is_full_day',
+            'image',
         ]
         widgets={
             'title' : forms.TextInput(
@@ -29,11 +31,8 @@ class EventModelForm(forms.ModelForm):
             'description' : forms.Textarea(
                 attrs={'class':'form-control','placeholder':'Descripción del evento'}
             ),
-            'latitude' : forms.NumberInput(
-                attrs={'class':'form-control','placeholder':'Latitud'}
-            ),
-            'longitude' : forms.NumberInput(
-                attrs={'class':'form-control','placeholder':'Longitud'}
+            'address' : AddressWithMapWidget(
+                {'class': 'vTextField'}
             ),
             'start_date' : DatePickerInput(),
             'end_date' : DatePickerInput(),
@@ -50,6 +49,9 @@ class EventModelForm(forms.ModelForm):
             ),
             'is_full_day' : forms.CheckboxInput(
                 attrs={'class':'form-check-input'}
+            ),
+            'image' : forms.FileInput(
+                attrs={'type':'file','class':'form-control-file'}
             ),
         }
 

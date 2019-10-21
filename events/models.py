@@ -7,8 +7,7 @@ User = get_user_model()
 class Event(models.Model):
     title = models.CharField('Titulo del evento',max_length=50)
     description = models.TextField('Descripción')
-    latitude = models.DecimalField(decimal_places=6, max_digits=9)
-    longitude = models.DecimalField(decimal_places=6, max_digits=9)
+    address = models.CharField('Dirección del evento', max_length=100, default='Ciudad Universitaria')
     start_date = models.DateField('Fecha en que comienza el evento')
     end_date = models.DateField('Fecha en que termina el evento',
                                 null=True, blank=True)
@@ -29,6 +28,7 @@ class Event(models.Model):
                                        default=False)
     is_full_day = models.BooleanField('El evento no tiene un horario definido',
                                       default=False)
+    image = models.ImageField(null=True , blank=True, upload_to='event_images/')
     def get_absolute_url(self):
         return reverse("events:detail", kwargs={"pk": self.id})
 
