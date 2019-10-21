@@ -3,11 +3,17 @@
 
 <div class="container">
 
+{% if user == object.host  %}
 	<form action= '.' method='POST'>{% csrf_token %}
 		<p class="list-group-item list-group-item-warning">¿Realmente quieres eliminar este evento?</p>
 		<button type="submit" class="btn btn-primary">Si</button>
 		<a class="btn btn-secondary" href="../" role="button">No</a>
 	</form>
+{% else %}
+
+<meta http-equiv="refresh" content="0; url= {% url 'events:list' %}">
+
+{% endif %}
 
 </div>
 
