@@ -1,0 +1,11 @@
+{% extends 'global/base.html' %}
+{% block content %}
+    <div class="container mt-3">
+        <div class="jumbotron text-center bg-light text-dark">
+            <div class="rounded-circle mx-auto shadow border border-dark"
+                 style="height: 300px; width: 300px; background-size: cover; background-repeat: no-repeat; background-position: 50% 50%; background-image: url('{{ image_url }}')"></div>
+            <h1 class="display-4">{{ user_detail.first_name }} {{ user_detail.last_name }}</h1>
+            <p class="lead">{{ user_detail.academic_entity.name }} - {{ user }}</p>
+        </div>
+    </div>
+{% endblock %}
