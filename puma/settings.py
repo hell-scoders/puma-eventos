@@ -26,6 +26,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'localhost',
     'b6ce72da.ngrok.io'
 ]
 

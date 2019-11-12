@@ -44,14 +44,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
         help_text='Designates whether the user can log into this admin site.',
     )
-    is_organizer = models.BooleanField(
-        'organizer status',
-        default=False,
-    )
-    is_unam_community = models.BooleanField(
-        'unam_community status',
-        default=True,
-    )
     is_active = models.BooleanField(
         'active status',
         default=False,
@@ -89,4 +81,4 @@ class UserDetail(models.Model):
     last_name = models.CharField(max_length=255)
     profile_picture = models.ImageField(null=True, blank=True)
     user = models.OneToOneField(User, models.CASCADE)
-    academic_entity = models.ForeignKey(AcademicEntity, models.SET_NULL, null=True)
+    academic_entity = models.ForeignKey(AcademicEntity, models.SET_NULL, null=True, blank=True)
