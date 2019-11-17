@@ -1,11 +1,12 @@
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
 from django.urls import reverse
 
 User = get_user_model()
 
+
 class Event(models.Model):
-    title = models.CharField('Titulo del evento',max_length=50)
+    title = models.CharField('Titulo del evento', max_length=50)
     description = models.TextField('Descripción')
     address = models.CharField('Dirección del evento', max_length=100, default='Ciudad Universitaria')
     start_date = models.DateField('Fecha en que comienza el evento')
@@ -28,14 +29,13 @@ class Event(models.Model):
                                        default=False)
     is_full_day = models.BooleanField('El evento no tiene un horario definido',
                                       default=False)
-    image = models.ImageField(null=True , blank=True, upload_to='event_images/')
+    image = models.ImageField(null=True, blank=True, upload_to='event_images/')
+
     def get_absolute_url(self):
         return reverse("events:detail", kwargs={"pk": self.id})
 
     def __str__(self):
         return f"{self.id} - {self.title} creado por {self.host}"
-
-
 
 
 # es necesario leer el siguiente artículo para entender esta estructura de datos:

@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('accounts', '0004_auto_20191111_1634'),
     ]
@@ -21,6 +20,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='is_staff',
-            field=models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status'),
+            field=models.BooleanField(default=False,
+                                      help_text='Designates whether the user can log into this admin site.',
+                                      verbose_name='staff status'),
         ),
     ]

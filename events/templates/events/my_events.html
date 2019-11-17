@@ -2,19 +2,20 @@
 {% block content %}
     <div class="container">
         <h1 class="mt-3">Events</h1>
-				<div class="row justify-content-around">
-        {% for instance in object_list %}
-					{% if user == instance.host  %}
-            <div class="card mb-3 col-5">
-                <img class="card-img-top" alt="Card image cap" src="{% if instance.image %} {{ instance.image.url }} {% endif %}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ instance.title }}</h5>
-                    <p class="card-text">{{ instance.description|truncatewords:30 }}</p>
-                    <a href="{% url 'events:detail' instance.id %}" class="btn btn-primary">Read more</a>
-                </div>
-            </div>
-					{% endif %}
-        {% endfor %}
-				</div>
+        <div class="row justify-content-around">
+            {% for instance in object_list %}
+                {% if user == instance.host %}
+                    <div class="card mb-3 col-5">
+                        <img class="card-img-top" alt="Card image cap"
+                             src="{% if instance.image %} {{ instance.image.url }} {% endif %}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ instance.title }}</h5>
+                            <p class="card-text">{{ instance.description|truncatewords:30 }}</p>
+                            <a href="{% url 'events:detail' instance.id %}" class="btn btn-primary">Read more</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

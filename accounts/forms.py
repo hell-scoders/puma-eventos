@@ -1,11 +1,11 @@
 import uuid
 
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import get_user_model, password_validation
 from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
 from django import forms
 from django.contrib import messages
+from django.contrib.auth import get_user_model, password_validation
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from accounts.mail import send_normal_confirmation_mail, send_staff_confirmation_mail
 from accounts.models import UserDetail, AcademicEntity

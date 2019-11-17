@@ -1,5 +1,5 @@
 {% autoescape off %}
-Hi,
-Please click on the link bellow to confirm your registration,
-http://{{ domain }}{% url 'accounts:activate_normal_user' uidb64=uid token=token %}
+    Hi,
+    Please click on the link bellow to confirm your registration,
+    http://{{ domain }}{% url 'accounts:activate_normal_user' uidb64=uid token=token %}
 {% endautoescape %}

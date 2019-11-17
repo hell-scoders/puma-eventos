@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.views.generic import (
     CreateView,
     ListView,
@@ -5,11 +6,9 @@ from django.views.generic import (
     UpdateView,
     DeleteView)
 
+from .forms import EventModelForm
 from .models import Event
 
-from .forms import EventModelForm
-from django.urls import reverse
-from django.shortcuts import get_object_or_404
 
 class EventListView(ListView):
     queryset = Event.objects.all()
@@ -30,7 +29,6 @@ class MyEventListView(ListView):
         return context
 
 
-
 class EventDetailView(DetailView):
     queryset = Event.objects.all()
 
@@ -47,12 +45,13 @@ class EventDeleteView(DeleteView):
     def get_success_url(self):
         return reverse('events:list')
 
+
 class EventUpdateView(UpdateView):
     template_name = 'events/event_edit.html'
     form_class = EventModelForm
     queryset = Event.objects.all()
 
-    def form_valid(self,form):
+    def form_valid(self, form):
         print(form.cleaned_data)
         return super().form_valid(form)
 
@@ -62,8 +61,7 @@ class EventCreateView(CreateView):
     form_class = EventModelForm
     queryset = Event.objects.all()
 
-
-    def form_valid(self,form):
+    def form_valid(self, form):
         form.instance.host = self.request.user
         print(form.cleaned_data)
         return super().form_valid(form)
