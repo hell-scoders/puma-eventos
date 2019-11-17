@@ -26,7 +26,8 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'b6ce72da.ngrok.io'
+    '.ngrok.io',
+    '127.0.0.1'
 ]
 
 # Application definition
