@@ -1,4 +1,5 @@
 from django.views.generic import (
+    CreateView,
     ListView,
     DetailView,
     UpdateView,
@@ -6,6 +7,9 @@ from django.views.generic import (
 
 from .models import Event
 
+from .forms import EventModelForm
+from django.urls import reverse
+from django.shortcuts import get_object_or_404
 
 class EventListView(ListView):
     queryset = Event.objects.all()
@@ -14,6 +18,17 @@ class EventListView(ListView):
         context = super().get_context_data(**kwargs)
         context['events'] = 'active'
         return context
+
+
+class MyEventListView(ListView):
+    template_name = 'events/my_events.html'
+    queryset = Event.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['events'] = 'active'
+        return context
+
 
 
 class EventDetailView(DetailView):
@@ -26,14 +41,29 @@ class EventDetailView(DetailView):
 
 
 class EventDeleteView(DeleteView):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['events'] = 'active'
-        return context
+    template_name = 'events/event_delete.html'
+    queryset = Event.objects.all()
 
+    def get_success_url(self):
+        return reverse('events:list')
 
 class EventUpdateView(UpdateView):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['events'] = 'active'
-        return context
+    template_name = 'events/event_edit.html'
+    form_class = EventModelForm
+    queryset = Event.objects.all()
+
+    def form_valid(self,form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
+
+class EventCreateView(CreateView):
+    template_name = 'events/event_create.html'
+    form_class = EventModelForm
+    queryset = Event.objects.all()
+
+
+    def form_valid(self,form):
+        form.instance.host = self.request.user
+        print(form.cleaned_data)
+        return super().form_valid(form)

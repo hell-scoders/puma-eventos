@@ -141,7 +141,6 @@ class StaffUserCompleteSignUp(forms.ModelForm):
         fields = [
             'first_name',
             'last_name',
-            'academic_entity',
             'profile_picture',
             'password1',
             'password2'

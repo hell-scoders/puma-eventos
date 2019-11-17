@@ -1,6 +1,9 @@
 {% extends 'global/base.html' %}
+{% load social_share %}
+{% load easy_maps_tags %}
 {% block content %}
-    <div class="container mt-3">
+
+	<div class="container mt-3">
         <div class="section-header">
           <h2>{{ object.title}}</h2>
           <p>Organizado por {{ object.host }}</p>
@@ -8,15 +11,43 @@
 
         <div class="row">
           <div class="col-md-6">
-            <img src="https://dummyimage.com/600x400/000/fff.jpg&text=Event+Image" alt="Speaker 1" class="img-fluid">
+            <img src="{% if object.image %} {{ object.image.url }} {% endif %}" alt="Speaker 1" class="img-fluid">
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="details">
               <h2 class="lead">{{ object.start_date }}</h2>
               <p>{{ object.description }}</p>
+              <p> Fecha inicio: {{ object.start_date }}</p>
+              <p> Fecha fin: {{ object.end_date }}</p>
+              <p> Hora: {{ object.start_time}} </p>
+              <p> Capacidad: {{ object.capacity}} personas</p>
+							<p class="h4">
+								<button type="button" class="btn btn-outline-dark" title="Compartir en facebook">
+									{% post_to_facebook object_or_url "<i class='fab fa-facebook-f'></i>" %}
+								</button>
+								<button type="button" class="btn btn-outline-dark" title="Compartir en twitter">
+									{% post_to_twitter "Checa este evento: {{object.title}}." object_or_url "<i class='fab fa-twitter'></i>" %}
+								</button>
+								<button type="button" class="btn btn-outline-dark" title="Compartir en linkedin">
+									{% post_to_linkedin object.title object_or_url "<i class='fab fa-linkedin-in'></i>" %}
+								</button>
+							</p>
             </div>
           </div>
+          <div class="col-md-3">
+						{% easy_map object.address %}
+            <p>{{ object.address}}</p>
+        </div>
+				 
+				 {% if user == object.host %}
+						<div class="col-md-3">
+            	<div class="">
+								<a class="btn btn-info" href="{% url 'events:update' object.id %}" role="button">Editar</a>
+								<a class="btn btn-danger" href="{% url 'events:delete' object.id %}" role="button">Eliminar</a>
+            	</div>
+          	</div>
+				{% endif %}
 
         </div>
       </div>
