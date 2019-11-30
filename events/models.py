@@ -1,13 +1,27 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from django_google_maps.fields import AddressField, GeoLocationField
 
 User = get_user_model()
+
+
+class Tag(models.Model):
+    """Events Tags"""
+    name = models.CharField('Nombre de la etiqueta',max_length=255, unique=True)
+    
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("events:create")
+        
 
 class Event(models.Model):
     title = models.CharField('Titulo del evento',max_length=50)
     description = models.TextField('Descripción')
-    address = models.CharField('Dirección del evento', max_length=100, default='Ciudad Universitaria')
+    address = AddressField(max_length=100)
+    geolocation = GeoLocationField(max_length=200,blank=True)
     start_date = models.DateField('Fecha en que comienza el evento')
     end_date = models.DateField('Fecha en que termina el evento',
                                 null=True, blank=True)
@@ -19,6 +33,7 @@ class Event(models.Model):
     host = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              verbose_name='Persona o entidad que es host del evento')
+    tags = models.ManyToManyField(Tag)
     parent_event = models.ForeignKey('self',
                                      on_delete=models.CASCADE,
                                      verbose_name='Evento originario',

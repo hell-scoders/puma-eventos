@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_google_maps',
+    'jquery_ui',
     # third party
     'bootstrap_modal_forms',
     'crispy_forms',
@@ -45,8 +47,10 @@ INSTALLED_APPS = [
     'bootstrap4',
     'fontawesome_5',
     'bootstrap_datepicker_plus',
+    'bootstrap3_datetime',
     'django_social_share',
     'easy_maps',
+    'mapwidgets',
     # first party
     'accounts.apps.AccountsConfig',
     'events.apps.EventsConfig'
@@ -169,3 +173,4 @@ BOOTSTRAP4 = {
 EASY_MAPS_GOOGLE_KEY = os.environ["MAPS_KEY"]
 EASY_MAPS_ZOOM = 16
 EASY_MAPS_LANGUAGE = 'es'
+GOOGLE_MAPS_API_KEY = os.environ["MAPS_KEY"]

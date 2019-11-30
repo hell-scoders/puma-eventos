@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+		{{ form.media }}
     {% load bootstrap4 %} {# import bootstrap4/bootstrap3 #}
     {% load fontawesome_5 %}
     <!-- Required meta tags -->
@@ -15,6 +16,8 @@
     <title>{{ title }}</title>
     {% bootstrap_css %} {# Embed Bootstrap CSS #}
     {% bootstrap_javascript jquery='full' %} {# Embed Bootstrap JS+jQuery #}
+		<link rel='stylesheet' type='text/css' href='{% static 'css/jquery-ui/dot-luv/jquery-ui.css' %}' />
+		<link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/timepicker@1.12.0/jquery.timepicker.min.css' />
 </head>
 <body>
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
@@ -129,9 +132,9 @@
     $(function () {
         // Sign up button
         $(".signup-btn").modalForm({formURL: "{% url 'accounts:signup' %}"});
-
     });
 </script>
-{{ form.media }}
+<script type='text/javascript' src='{% static 'js/jquery-ui.js' %}'></script>
+<script src="https://cdn.jsdelivr.net/npm/timepicker@1.12.0/jquery.timepicker.min.js"></script>
 </body>
 </html>

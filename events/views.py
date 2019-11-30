@@ -4,11 +4,11 @@ from django.views.generic import (
     DetailView,
     UpdateView,
     DeleteView)
+from bootstrap_modal_forms.generic import BSModalCreateView
+from .models import Event, Tag
 
-from .models import Event
-
-from .forms import EventModelForm
-from django.urls import reverse
+from .forms import EventModelForm, TagModelForm
+from django.urls import reverse, reverse_lazy 
 from django.shortcuts import get_object_or_404
 
 class EventListView(ListView):
@@ -28,7 +28,6 @@ class MyEventListView(ListView):
         context = super().get_context_data(**kwargs)
         context['events'] = 'active'
         return context
-
 
 
 class EventDetailView(DetailView):
@@ -67,3 +66,16 @@ class EventCreateView(CreateView):
         form.instance.host = self.request.user
         print(form.cleaned_data)
         return super().form_valid(form)
+
+
+class TagCreateView(BSModalCreateView):
+    template_name = 'events/tag_create.html'
+    form_class = TagModelForm
+    success_message='Tag created'
+    success_url = reverse_lazy('events:create')
+
+class TagUpdateView(BSModalCreateView):
+    template_name = 'events/tag_create.html'
+    form_class = TagModelForm
+    success_message='Tag created'
+    success_url = reverse_lazy('events:list')

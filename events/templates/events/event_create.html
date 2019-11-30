@@ -18,6 +18,11 @@
             <div class="form-group">
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                 {% render_field field class="form-control" placeholder=field.label %}
+								{% if field.label == "Tags" %}
+									<p class="text-success">
+										<button type="button" class="btn btn-info" id="new_tag">Crear nueva etiqueta</button>
+										¿No está la etiqueta que buscas?</p>
+								{% endif %}
                 <div class="{% if field.errors %} invalid{% endif %}">
                     {% for error in field.errors %}
                         <div class="alert alert-danger" role="alert">{{ error }}</div>
@@ -26,10 +31,41 @@
             </div>
 						{% endif %}
         {% endfor %}
-  	<button type="submit" class="btn btn-primary">Create</button>
+  	<button type="submit" class="btn btn-success">Create</button>
 		<a class="btn btn-danger" href="../" role="button">Cancel</a>
 	</form>
 
 </div>
+<style>
+#id_address {
+    width: 100%;
+}
+.map_canvas_wrapper {
+    margin-left: 0px;
+}
+</style>
+<script>
+	$(function () {
+		//Sign up button
+		$("#new_tag").modalForm({formURL: "{% url 'events:create_tag' %}"});
+		$("#start_date").datepicker();
+		$("#end_date").datepicker();
+		$('#start_time').timepicker({ 'timeFormat': 'H:i' });
+		$('#end_time').timepicker({ 'timeFormat': 'H:i' });
+	});
+	$('option').mousedown(function(e) {
+    e.preventDefault();
+    var originalScrollTop = $(this).parent().scrollTop();
+    console.log(originalScrollTop);
+    $(this).prop('selected', $(this).prop('selected') ? false : true);
+    var self = this;
+    $(this).parent().focus();
+    setTimeout(function() {
+        $(self).parent().scrollTop(originalScrollTop);
+    }, 0);
 
+    return false;
+});
+
+</script>
 {% endblock %}
