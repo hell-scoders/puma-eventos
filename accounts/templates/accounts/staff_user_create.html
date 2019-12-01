@@ -1,0 +1,58 @@
+{% extends 'global/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container">
+        <h1 class="mt-3">Hosts</h1>
+        <h2 class="lead">Add a new host user or upgrade an existing user's permissions.</h2>
+        <hr>
+        <form role="form" class="mb-3" method="post">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        {% if user_exists %}
+            <a href="#userExists" role="button" class="btn btn-primary" data-toggle="modal">Launch modal</a>
+            <div id="userExists" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userExistsLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="myModalLabel">Email exists</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>The email you provided belongs to an active user. Do you wish to upgrade that user's
+                                permissions?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger">Yes</button>
+                            <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% elif user_is_host %}
+            <a href="#userIsHost" role="button" class="btn btn-primary" data-toggle="modal">Launch modal</a>
+            <div id="userIsHost" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userExistsLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="myModalLabel">Email exists</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>The email you provided belongs to an active user. Do you wish to upgrade that user's
+                                permissions?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger">Yes</button>
+                            <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

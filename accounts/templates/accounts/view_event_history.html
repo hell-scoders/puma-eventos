@@ -1,0 +1,18 @@
+{% extends 'global/base.html' %}
+{% block content %}
+<div class="container">
+	<h1 class="mt-3">Events history</h1>
+	<div class= "row justify-content">
+		{% for instance in event_history %}
+		<div class="card mb-3 col-5">
+			<img class="card-img-top" alt="Card image cap" src="{% if instance.image %}{{instance.image.url}} {% endif %}">
+			<div class = "card-body">
+				<h5 class = "card-title">{{instance.title}}</h5>
+				<p class = "card-text">{{instance.description | truncatewords:30}}</p>
+				<a href="{% url 'events:detail' instance.id %}" class="btn btn-primary">Read more</a>
+			</div>
+			</div>
+			{% endfor%}
+			</div>
+</div>
+{% endblock %}

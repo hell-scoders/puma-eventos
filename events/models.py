@@ -1,40 +1,57 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from django_google_maps.fields import AddressField, GeoLocationField
 
 User = get_user_model()
 
 
+class Tag(models.Model):
+    """Events Tags"""
+    name = models.CharField('Nombre de la etiqueta',max_length=255, unique=True)
+    
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("events:create")
+        
+
 class Event(models.Model):
-    title = models.CharField(max_length=50)
-    description = models.TextField()
-    latitude = models.DecimalField(decimal_places=6, max_digits=9)
-    longitude = models.DecimalField(decimal_places=6, max_digits=9)
-    start_date = models.DateField('fecha en que comienza el evento')
-    end_date = models.DateField('fecha en que termina el evento',
-                                null=True)
-    start_time = models.TimeField('hora en que comienza el evento')
-    end_time = models.TimeField('hora en que termina el evento',
-                                null=True)
-    capacity = models.IntegerField('capacidad del evento')
+    title = models.CharField('Titulo del evento',max_length=50)
+    description = models.TextField('Descripción')
+    address = AddressField(max_length=100)
+    geolocation = GeoLocationField(max_length=200,blank=True)
+    start_date = models.DateField('Fecha en que comienza el evento')
+    end_date = models.DateField('Fecha en que termina el evento',
+                                null=True, blank=True)
+    start_time = models.TimeField('Hora en que comienza el evento',
+                                  null=True, blank=True)
+    end_time = models.TimeField('Hora en que termina el evento',
+                                null=True, blank=True)
+    capacity = models.IntegerField('Capacidad del evento')
+    invitations= models.ManyToManyField(User,related_name="invitations")
     host = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              verbose_name='Persona o entidad que es host del evento')
+    tags = models.ManyToManyField(Tag)
     parent_event = models.ForeignKey('self',
                                      on_delete=models.CASCADE,
                                      verbose_name='Evento originario',
                                      blank=True,
                                      null=True)
-    is_recurring = models.BooleanField('el evento es recurrente',
+    is_recurring = models.BooleanField('El evento es recurrente',
                                        default=False)
-    is_full_day = models.BooleanField('el evento no tiene un horario definido',
+    is_full_day = models.BooleanField('El evento no tiene un horario definido',
                                       default=False)
-
+    image = models.ImageField(null=True , blank=True, upload_to='event_images/')
     def get_absolute_url(self):
-        return reverse("events:detail", kwargs={"id": self.id})
+        return reverse("events:detail", kwargs={"pk": self.id})
 
     def __str__(self):
         return f"{self.id} - {self.title} creado por {self.host}"
+
+
 
 
 # es necesario leer el siguiente artículo para entender esta estructura de datos:

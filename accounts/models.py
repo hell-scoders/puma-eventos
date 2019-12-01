@@ -39,11 +39,6 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     """Base user class"""
     email = models.EmailField(max_length=255, unique=True)
-    is_confirmed = models.BooleanField(
-        'confirmed status',
-        default=False,
-        help_text='Designates whether the user has confirmed its email.',
-    )
     is_staff = models.BooleanField(
         'staff status',
         default=False,
@@ -76,11 +71,15 @@ class AcademicEntity(models.Model):
     """Academic entity"""
     name = models.CharField(max_length=255, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class UserDetail(models.Model):
     """Additional user details"""
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    profile_picture = models.ImageField()
+    profile_picture = models.ImageField(null=True, blank=True)
     user = models.OneToOneField(User, models.CASCADE)
-    academic_entity = models.ForeignKey(AcademicEntity, models.SET_NULL, null=True)
+    event_history=models.ManyToManyField('events.Event')
+    academic_entity = models.ForeignKey(AcademicEntity, models.SET_NULL, null=True, blank=True)

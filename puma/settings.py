@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -23,7 +24,10 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+    
+]
 
 # Application definition
 
@@ -34,13 +38,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_google_maps',
+    'jquery_ui',
     # third party
     'bootstrap_modal_forms',
     'crispy_forms',
     'widget_tweaks',
+    'bootstrap4',
+    'fontawesome_5',
+    'bootstrap_datepicker_plus',
+    'bootstrap3_datetime',
+    'django_social_share',
+    'easy_maps',
+    'mapwidgets',
     # first party
+    'events',
     'accounts.apps.AccountsConfig',
-    'events.apps.EventsConfig'
+    #'events.apps.EventsConfig'
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -56,6 +70,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'puma.urls'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 TEMPLATES = [
     {
@@ -81,8 +98,12 @@ WSGI_APPLICATION = 'puma.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['DB_NAME'], #postgres
+        'USER': os.environ['DB_USER'], #postgres
+        'PASSWORD': os.environ['DB_PASS'], #soyuz
+        'HOST': os.environ['DB_HOST'], #localhost
+        'PORT': os.environ['DB_PORT'], #5432
     }
 }
 
@@ -117,10 +138,40 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_URL = '/static/'
-MEDIA_ROOT= os.path.join(BASE_DIR,'media')
-MEDIA_URL='/media/'
+
 # Crispy forms template pack
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Email settings
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_PORT = int(os.environ['EMAIL_PORT'])
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# Accounts
+LOGIN_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+
+# Media files
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+# Bootstrap datepicker
+BOOTSTRAP4 = {
+    'include_jquery': True,
+    'theme_url': 'https://bootswatch.com/4/solar/bootstrap.css',
+}
+
+# Google Maps settings
+EASY_MAPS_GOOGLE_KEY = os.environ["MAPS_KEY"]
+EASY_MAPS_ZOOM = 16
+EASY_MAPS_LANGUAGE = 'es'
+GOOGLE_MAPS_API_KEY = os.environ["MAPS_KEY"]

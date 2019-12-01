@@ -1,13 +1,15 @@
 from django.urls import path
-from . import views
-from .views import EventListView, EventDetailView, EventDeleteView, EventUpdateView
+from .views import EventListView, EventDetailView, EventDeleteView, EventUpdateView,\
+                   EventCreateView, MyEventListView, TagCreateView, TagUpdateView
 
 app_name = "events"
 urlpatterns = [
     path('', EventListView.as_view(), name='list'),
-    path('search/',views.search, name="search"),
+    path('my_events/', MyEventListView.as_view(), name='my_events'),
     path('<int:pk>/', EventDetailView.as_view(), name='detail'),
     path('<int:pk>/delete/', EventDeleteView.as_view(), name='delete'),
     path('<int:pk>/edit/', EventUpdateView.as_view(), name='update'),
-    path('<int:pk>/map/',views.map, name='map'),
+    path('create/', EventCreateView.as_view(), name='create'),
+    path('tag/', TagCreateView.as_view(), name='create_tag'),
+    path('tag_update/', TagUpdateView.as_view(), name='update_tag'),
 ]

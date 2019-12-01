@@ -1,6 +1,9 @@
 {% extends 'global/base.html' %}
+{% load social_share %}
+{% load easy_maps_tags %}
 {% block content %}
-    <div class="container mt-3">
+
+	<div class="container mt-3">
         <div class="section-header">
           <h2>{{ object.title}}</h2>
           <p>Organizado por {{ object.host }}</p>
@@ -8,16 +11,44 @@
 
         <div class="row">
           <div class="col-md-6">
-            <img src="https://dummyimage.com/600x400/000/fff.jpg&text=Event+Image" alt="Speaker 1" class="img-fluid">
+            <img src="{% if object.image %} {{ object.image.url }} {% endif %}" alt="Speaker 1" class="img-fluid">
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="details">
               <h2 class="lead">{{ object.start_date }}</h2>
               <p>{{ object.description }}</p>
+              <p> Fecha inicio: {{ object.start_date }}</p>
+              <p> Fecha fin: {{ object.end_date }}</p>
+              <p> Hora: {{ object.start_time}} </p>
+              <p> Capacidad: {{ object.capacity}} personas</p>
+							<ul class="list-inline">
+  							<li class="list-inline-item">
+									{% post_to_facebook object_or_url "<button type='button' class='btn btn-outline-success' title='Compartir en facebook'><i class='fab fa-facebook-f'></i></button>"%}
+								</li>
+  							<li class="list-inline-item">
+									{% post_to_twitter "Checa este evento: {{object.title}}." object_or_url "<button type='button' class='btn btn-outline-success' title='Compartir en twitter'><i class='fab fa-twitter'></i></button>" %}
+								</li>
+  							<li class="list-inline-item">
+									{% post_to_linkedin object.title object_or_url "<button type='button' class='btn btn-outline-success' title='Compartir en linkedin'><i class='fab fa-linkedin-in'></i></button>" %}
+								</li>
+							</ul>
+				 {% if user == object.host %}
+								<a class="btn btn-info" href="{% url 'events:update' object.id %}" role="button">Editar</a>
+								<a class="btn btn-danger" href="{% url 'events:delete' object.id %}" role="button">Eliminar</a>
+				{% endif %}
             </div>
           </div>
-
+          <div class="col-md-3">
+						{% easy_map object.geolocation %}
+            <p>{{ object.address}}</p>
         </div>
+        </div>
+				<div>
+					<strong>Etiquetas:</strong> 
+						{% for i in object.tags.all %} 
+							{{ i.name }}
+								{% endfor %}
+				</div>
       </div>
 {% endblock %}
