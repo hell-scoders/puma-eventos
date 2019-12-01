@@ -7,7 +7,7 @@ from django.views.generic import (
 from bootstrap_modal_forms.generic import BSModalCreateView
 from .models import Event, Tag
 
-from .forms import EventModelForm, TagModelForm
+from .forms import EventModelForm, TagModelForm 
 from django.urls import reverse, reverse_lazy 
 from django.shortcuts import get_object_or_404
 
