@@ -65,6 +65,7 @@
             </ul>
             <!-- Links -->
             <div class="btn-toolbar mt-2 text-light" role="toolbar">
+						 {% if user.is_authenticated %}
                 <form action="{% url 'events:list' %}" class="mr-2 mb-2">
                     <div class="input-group" role="group">
                         <input type="search" class="form-control" placeholder="Search events..."
@@ -76,6 +77,7 @@
                         </div>
                     </div>
                 </form>
+							{% endif %}
                 <div class="btn-group mb-2" role="group">
                     {% if user.is_authenticated %}
                         <a href="{% url 'accounts:logout' %}" class="btn btn-danger">Log out</a>

@@ -17,7 +17,6 @@
           <div class="col-md-3">
             <div class="details">
               <h2 class="lead">{{ object.start_date }}</h2>
-              <p>{{ object.description }}</p>
               <p> Fecha inicio: {{ object.start_date }}</p>
               <p> Fecha fin: {{ object.end_date }}</p>
               <p> Hora: {{ object.start_time}} </p>
@@ -48,7 +47,24 @@
 					<strong>Etiquetas:</strong> 
 						{% for i in object.tags.all %} 
 							{{ i.name }}
-								{% endfor %}
+						{% endfor %}
+				</div>
+				<div>
+				 <p class="font-weight-bold text-light">{{ object.description }}</p>
+				</div>
+				<div>
+				 	{% if user == object.host %}
+						<strong>Staff</strong>
+						{% for i in object.staff.all %}
+							<ul class="list-group">
+								<li class="list-group-item list-group-item-success">
+								{{ i.userdetail.first_name }}
+								{{ i.userdetail.last_name }}
+								{{ i.email }}
+								</li>
+							</ul>
+						{% endfor %}
+					{% endif %}
 				</div>
       </div>
 {% endblock %}

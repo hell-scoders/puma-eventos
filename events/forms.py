@@ -5,7 +5,8 @@ from datetime import date, datetime
 from django.utils.timezone import now, localtime
 from bootstrap_modal_forms.forms import BSModalForm
 
-from .models import Event,Tag
+from .models import Event, Tag
+from accounts.models import *
 
 
 class EventModelForm(forms.ModelForm):
@@ -25,8 +26,11 @@ class EventModelForm(forms.ModelForm):
             'parent_event',
             'is_recurring',
             'is_full_day',
+            'staff',
             'image',
         ]
+
+
         widgets={
             'title' : forms.TextInput(
                 attrs={'class':'form-control','placeholder':'Título del evento'}
@@ -55,11 +59,17 @@ class EventModelForm(forms.ModelForm):
             'is_full_day' : forms.CheckboxInput(
                 attrs={'class':'form-check-input'}
             ),
+            'staff' : forms.SelectMultiple(
+                attrs={'class':'form-control'}
+            ),
             'image' : forms.FileInput(
                 attrs={'type':'file','class':'form-control-file'}
             ),
         }
 
+    def __init__(self, *args, **kwargs):
+        super(EventModelForm, self).__init__(*args, **kwargs)
+        self.fields['staff'].queryset = User.objects.filter(is_staff_event=True)
 
     def clean(self):
         cleaned_data = self.cleaned_data

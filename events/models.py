@@ -34,6 +34,7 @@ class Event(models.Model):
                              on_delete=models.CASCADE,
                              verbose_name='Persona o entidad que es host del evento')
     tags = models.ManyToManyField(Tag)
+    staff = models.ManyToManyField(User, related_name='staff_event')
     parent_event = models.ForeignKey('self',
                                      on_delete=models.CASCADE,
                                      verbose_name='Evento originario',
@@ -75,8 +76,3 @@ class RecurringPattern(models.Model):
             models.CheckConstraint(check=models.Q(week_of_month__lte=5, week_of_month__gte=1), name='week_in_range'),
             models.CheckConstraint(check=models.Q(month_of_year__lte=12, month_of_year__gte=1), name='month_in_range')
         ]
-
-
-class StaffEvent(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
