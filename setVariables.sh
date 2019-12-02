@@ -1,6 +1,6 @@
 export SECRET_KEY='1d6&_i9z@fc4+yckjw0a9+l@a3sf71)v@_7!_f(1axvd3!382p'
-export EMAIL_HOST_USER=TuCorreoGmail
-export EMAIL_HOST_PASSWORD=TuPassword
+export EMAIL_HOST_USER=ybmcore@gmail.com
+export EMAIL_HOST_PASSWORD=#Physics1
 export EMAIL_PORT=587
 export EMAIL_HOST=smtp.gmail.com
 export MAPS_KEY='AIzaSyBdtB3E0i0aOhWQXFz_ongueXokMvf0dmk'

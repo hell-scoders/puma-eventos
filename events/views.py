@@ -107,7 +107,7 @@ def generate_qr_code(event_id,uid):
     qr.add_data('events/'+str(event_id)+'/invitation/'+str(uid))
     qr.make(fit=True)
     img=qr.make_image()
-    img_location="media/events/"+str(event_id)+"/invitation/"+str(uid)+".jpg"
+    img_location="media/event_images/"+str(event_id)+"invitation"+str(uid)+".jpg"
     img.save(img_location)
     return img_location
 
@@ -128,7 +128,12 @@ def invitation(request,pk):
     context['result']="Full capped event. Cannot issue invitation :("
     if(event.capacity>event.invitations.count()):
         user_detail = UserDetail.objects.get(user_id=request.user.pk)
-        send_invitation_mail(pk,request.user.pk,user_detail)
-        context['result']="Check your mail for your qr code. :)"
-        event.invitations.add(user_detail.user)
+        if not request.user in event.invitations.all():
+            send_invitation_mail(pk,request.user.pk,user_detail)
+            context['result']="Check your mail for your qr code. :)"
+            event.invitations.add(user_detail.user)
+            user_detail.event_history.add(event)
+        else:
+            context['result']="Already invited."
+
     return render(request,'events/invitation_confirmation.html',context)
