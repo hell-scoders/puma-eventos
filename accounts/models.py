@@ -48,6 +48,10 @@ class User(AbstractBaseUser, PermissionsMixin):
             'staff_event status',
             default=False,
     )
+    is_unam_community = models.BooleanField(
+            'unam_community status',
+            default=False,
+    )
     is_active = models.BooleanField(
         'active status',
         default=False,
@@ -85,5 +89,5 @@ class UserDetail(models.Model):
     last_name = models.CharField(max_length=255)
     profile_picture = models.ImageField(null=True, blank=True)
     user = models.OneToOneField(User, models.CASCADE)
-    event_history=models.ManyToManyField('events.Event')
+    event_history=models.ManyToManyField('events.Event', blank=True)
     academic_entity = models.ForeignKey(AcademicEntity, models.SET_NULL, null=True, blank=True)

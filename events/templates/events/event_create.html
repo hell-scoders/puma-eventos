@@ -3,6 +3,7 @@
 {% load crispy_forms_field %}
 {% block content %}
 
+{% if user.is_staff %}
 <div class="container">
 	<p class="h3">New event</p>
 
@@ -20,8 +21,8 @@
                 {% render_field field class="form-control" placeholder=field.label %}
 								{% if field.label == "Tags" %}
 									<p class="text-success">
-										<button type="button" class="btn btn-info" id="new_tag">Crear nueva etiqueta</button>
-										¿No está la etiqueta que buscas?</p>
+										<button type="button" class="btn btn-info" id="new_tag">Create Tag</button>
+										Not the label you are looking for?</p>
 								{% endif %}
                 <div class="{% if field.errors %} invalid{% endif %}">
                     {% for error in field.errors %}
@@ -68,4 +69,5 @@
 });
 
 </script>
+{%endif%}
 {% endblock %}

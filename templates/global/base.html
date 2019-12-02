@@ -48,10 +48,10 @@
                     <a class="nav-link"
                        href="{% url 'index' %}">Home</a>
                 </li>
-                <li class="nav-item {{ about }}">
+                <!--<li class="nav-item {{ about }}">
                     <a class="nav-link"
                        href="{% url 'about' %}">About</a>
-                </li>
+                </li>-->
                 <li class="nav-item {{ events }}">
                     <a class="nav-link"
                        href="{% url 'events:list' %}">Events</a>
@@ -65,7 +65,8 @@
             </ul>
             <!-- Links -->
             <div class="btn-toolbar mt-2 text-light" role="toolbar">
-                <form action="{% url 'events:list' %}" class="mr-2 mb-2">
+							{% if user.is_authenticated %}
+                <form action="{% url 'events:search' %}" class="mr-2 mb-2">
                     <div class="input-group" role="group">
                         <input type="search" class="form-control" placeholder="Search events..."
                                aria-label="Search events" id="search" name="search">
@@ -76,6 +77,7 @@
                         </div>
                     </div>
                 </form>
+								{% endif %}
                 <div class="btn-group mb-2" role="group">
                     {% if user.is_authenticated %}
                         <a href="{% url 'accounts:logout' %}" class="btn btn-danger">Log out</a>
@@ -85,14 +87,18 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu">
+														{%if user.is_unam_community %}
 				<a class="dropdown-item" href="{% url 'accounts:view_event_history'%}">Event history</a>
+														{% endif %}
                             {% if user.is_superuser %}
                                 <a class="dropdown-item" href="{% url 'accounts:create_staff_user' %}">Add a Host</a>
                             {% endif %}
                             {% if user.is_staff %}
                                 <a class="dropdown-item" href="{% url 'events:create' %}">Create event</a>
                             {% endif %}
+														{% if user.is_staff %}
                             <a class="dropdown-item" href="{% url 'events:my_events' %}">My events</a>
+														{% endif %}
                         </div>
                     {% else %}
                         <a class="login-btn btn btn-info">Log in</a>

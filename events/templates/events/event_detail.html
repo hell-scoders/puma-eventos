@@ -20,8 +20,9 @@
               <p>{{ object.description }}</p>
               <p> Start date: {{ object.start_date }}</p>
               <p> End date: {{ object.end_date }}</p>
-              <p> Hour: {{ object.start_time}} </p>
+              <p> Hour: {{ object.start_time}} - {{ object.end_time}}</p>
               <p> Capacity: {{ object.capacity}} people</p>
+							{% if not user.is_staff_event and user.is_authenticated %}
 							<ul class="list-inline">
   							<li class="list-inline-item">
 									{% post_to_facebook object_or_url "<button type='button' class='btn btn-outline-success' title='Compartir en facebook'><i class='fab fa-facebook-f'></i></button>"%}
@@ -33,7 +34,8 @@
 									{% post_to_linkedin object.title object_or_url "<button type='button' class='btn btn-outline-success' title='Compartir en linkedin'><i class='fab fa-linkedin-in'></i></button>" %}
 								</li>
 							</ul>
-							{% if user.is_authenticated %}
+							{% endif %}
+							{% if user.is_authenticated and user.is_unam_community and user != object.host %}
 				<a class="btn btn-info" href="{% url 'events:invitation' object.id%}" role="button">Get invitation</a>
                             {% endif %}
 				 {% if user == object.host %}
@@ -50,20 +52,32 @@
 				<div>
 					<strong>Tags:</strong> 
 						{% for i in object.tags.all %} 
-							<p>{{ i.name }}</p>
-								{% endfor %}
+							{{ i.name }}
+						{% endfor %}
 				</div>
+				<br><br><br>
+			{% if user == object.host or user in object.staff.all %}
 				<div>
-					<strong>Assistants:</strong> 
+					<strong>Assistants</strong>
+					<ul class="list-group">
 						{% for i in object.invitations.all %} 
-							<p>{{ i.email }}</p>
+							<li class="list-group-item">
+								{{ i.email }}<br><a class="text-danger" href="{% url 'events:cancel_invitation' object.id i.id %}" role="button">Cancel invitation</a></p>
+							</li>
 								{% endfor %}
+					</ul>
 				</div>
+				<br>
 				<div>
-					<strong>Staff:</strong> 
+					<strong>Staff</strong> 
+					<ul class="list-group">
 						{% for i in object.staff.all %} 
-							<p>{{ i.email }}</p>
-								{% endfor %}
+						<li class="list-group-item">
+							{{ i.email }}
+						</li>
+						{% endfor %}
 				</div>
+			{% endif %}
+					</ul>
       </div>
 {% endblock %}

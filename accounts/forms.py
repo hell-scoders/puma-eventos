@@ -36,6 +36,7 @@ class CustomUserCreationForm(PopRequestMixin, CreateUpdateAjaxMixin, UserCreatio
 
     def save(self, commit=True):
         user = super().save(commit=False)
+        user.is_unam_community = True
         if not self.request.is_ajax() and commit:
             user = super().save()
             send_normal_confirmation_mail(user, self.request)
@@ -46,6 +47,7 @@ class CustomUserCreationForm(PopRequestMixin, CreateUpdateAjaxMixin, UserCreatio
                 last_name=self.cleaned_data['last_name'],
                 profile_picture=self.cleaned_data['profile_picture']
             )
+            
         return user
 
     class Meta:
@@ -72,6 +74,8 @@ class StaffUserForm(forms.Form):
                 if commit:
                     messages.info(self.request, f'User with email "{form_user}" is already a host!')
             else:
+                if form_user.email.endswith("unam.mx"):
+                    form_user.is_unam_community = True
                 form_user.is_staff = True
                 if commit:
                     form_user.save()
@@ -80,6 +84,8 @@ class StaffUserForm(forms.Form):
         else:
             form_user = User.objects.create(email=self.cleaned_data['email'])
             form_user.set_password(str(uuid.uuid4()))
+            if form_user.email.endswith("unam.mx"):
+                form_user.is_unam_community = True
             form_user.is_staff = True
             if commit:
                 form_user.save()

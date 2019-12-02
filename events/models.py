@@ -8,7 +8,7 @@ User = get_user_model()
 
 class Tag(models.Model):
     """Events Tags"""
-    name = models.CharField('Nombre de la etiqueta',max_length=255, unique=True)
+    name = models.CharField('Tag name',max_length=255, unique=True)
     
     def __str__(self):
         return self.name
@@ -18,18 +18,18 @@ class Tag(models.Model):
         
 
 class Event(models.Model):
-    title = models.CharField('Titulo del evento',max_length=50)
-    description = models.TextField('Descripción')
+    title = models.CharField('Title',max_length=50)
+    description = models.TextField('Description')
     address = AddressField(max_length=100)
     geolocation = GeoLocationField(max_length=200,blank=True)
-    start_date = models.DateField('Fecha en que comienza el evento')
-    end_date = models.DateField('Fecha en que termina el evento',
+    start_date = models.DateField('Start date')
+    end_date = models.DateField('End date',
                                 null=True, blank=True)
-    start_time = models.TimeField('Hora en que comienza el evento',
+    start_time = models.TimeField('Start time',
                                   null=True, blank=True)
-    end_time = models.TimeField('Hora en que termina el evento',
+    end_time = models.TimeField('End time',
                                 null=True, blank=True)
-    capacity = models.IntegerField('Capacidad del evento')
+    capacity = models.IntegerField('Capacity')
     invitations= models.ManyToManyField(User,related_name='invitations')
     host = models.ForeignKey(User,
                              on_delete=models.CASCADE,

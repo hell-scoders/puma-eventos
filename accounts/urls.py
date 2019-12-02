@@ -9,7 +9,7 @@ from .views import (
     ActivateStaffUser,
     email_confirmed,
     user_profile,
-    view_event_history
+    view_event_history,
 )
 
 app_name = 'accounts'

@@ -6,7 +6,8 @@ from django.views.generic import (
     DeleteView)
 from bootstrap_modal_forms.generic import BSModalCreateView
 from .models import Event, Tag
-
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 from .forms import EventModelForm, TagModelForm
 from django.urls import reverse, reverse_lazy 
 from django.shortcuts import get_object_or_404,redirect,render
@@ -41,6 +42,19 @@ class MyEventListView(ListView):
         context['events'] = 'active'
         return context
 
+class EventSearchView(ListView):
+
+    def get_queryset(self): # new
+        query = self.request.GET.get('search')
+        object_list = Event.objects.filter(
+            Q(title__contains=query)|Q(tags__name__contains=query)
+        )
+        return object_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['events'] = 'active'
+        return context
 
 class EventDetailView(DetailView):
     queryset = Event.objects.all()
@@ -67,12 +81,10 @@ class EventUpdateView(UpdateView):
         print(form.cleaned_data)
         return super().form_valid(form)
 
-
 class EventCreateView(CreateView):
     template_name = 'events/event_create.html'
     form_class = EventModelForm
     queryset = Event.objects.all()
-
 
     def form_valid(self,form):
         form.instance.host = self.request.user
@@ -91,6 +103,7 @@ class TagUpdateView(BSModalCreateView):
     form_class = TagModelForm
     success_message='Tag created'
     success_url = reverse_lazy('events:list')
+    
     
 def logo_data(img_location):
     logo = MIMEImage(open(img_location,"rb").read(), _subtype="jpg")
@@ -130,10 +143,34 @@ def invitation(request,pk):
         user_detail = UserDetail.objects.get(user_id=request.user.pk)
         if not request.user in event.invitations.all():
             send_invitation_mail(pk,request.user.pk,user_detail)
-            context['result']="Check your mail for your qr code. :)"
+            context['result']="You have been accepted in this event. Please check your mail for your qr code. :)"
             event.invitations.add(user_detail.user)
             user_detail.event_history.add(event)
         else:
             context['result']="Already invited."
 
     return render(request,'events/invitation_confirmation.html',context)
+
+
+def send_cancellation_mail(event_id,uid,user_detail):
+    event=Event.objects.get(id=event_id)
+    subject="Invitation Cancellation. Info-puma"
+    mail_to = user_detail.user.email
+    from_email = os.environ['EMAIL_HOST_USER']
+    html_message="your invitation to event "+event.title+" have been canceled. For more information contact host event"
+    msg=EmailMultiAlternatives(subject,html_message,from_email,[mail_to])
+    msg.attach_alternative(html_message,"text/html")
+    msg.send()
+
+def invitation_cancellation(request,pk,pk2):
+    event=Event.objects.get(id=pk)
+    #user = event.user_id.get(id=pk2)
+    context= dict()
+    context['result']="User removed from this event"
+    user_detail = UserDetail.objects.get(user_id=pk2)
+    send_cancellation_mail(pk,pk2,user_detail)
+    event.invitations.remove(user_detail.user)
+    user_detail.event_history.remove(event)
+
+    return render(request,'events/invitation_cancellation.html',context)
+

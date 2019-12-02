@@ -22,19 +22,15 @@ class EventModelForm(forms.ModelForm):
             'end_time',
             'capacity',
             'tags',
-            'parent_event',
-            'is_recurring',
-            'is_full_day',
             'staff',
-            'invitations',
             'image',
         ]
         widgets={
             'title' : forms.TextInput(
-                attrs={'class':'form-control','placeholder':'Título del evento'}
+                attrs={'class':'form-control','placeholder':'Title'}
             ),
             'description' : forms.Textarea(
-                attrs={'class':'form-control','placeholder':'Descripción del evento'}
+                attrs={'class':'form-control','placeholder':'Description'}
             ),            
             'address' : GoogleMapsAddressWidget(attrs={'size':'20'}),
             'geolocation':forms.TextInput(attrs={'readonly':'true'}),
@@ -43,30 +39,22 @@ class EventModelForm(forms.ModelForm):
             'start_time' : TimePickerInput(attrs={'id':'start_time'}),
             'end_time' : TimePickerInput(attrs={'id':'end_time'}),
             'capacity' : forms.NumberInput(
-                attrs={'class':'form-control','placeholder':'Capacidad'}
+                attrs={'class':'form-control','placeholder':'Capacity'}
             ),
             'tags' : forms.SelectMultiple(
                 attrs={'class':'form-control'}
             ),
-            'parent_event' : forms.Select(
-                attrs={'class':'form-control'}
-            ),
-            'is_recurring' : forms.CheckboxInput(
-                attrs={'class':'form-check-input'}
-            ),
-            'is_full_day' : forms.CheckboxInput(
-                attrs={'class':'form-check-input'}
-            ),
             'staff' : forms.SelectMultiple(
-                attrs={'class':'form-control'}
-            ),
-            'invitations' : forms.SelectMultiple(
                 attrs={'class':'form-control'}
             ),
             'image' : forms.FileInput(
                 attrs={'type':'file','class':'form-control-file'}
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(EventModelForm, self).__init__(*args, **kwargs)
+        self.fields['staff'].queryset = User.objects.filter(is_staff_event=True)
 
     def clean(self):
         cleaned_data = self.cleaned_data
@@ -77,13 +65,13 @@ class EventModelForm(forms.ModelForm):
 
         if end_date and start_date:
             if end_date < start_date:
-                msg = 'El evento no puede terminar en una fecha anterior a la fecha de inicio'
+                msg = 'start date can\'t greater than end date'
                 self._errors['end_date'] = self.error_class([msg])
                 del cleaned_data['end_date']
 
             if end_time and start_time:
                 if end_time < start_time and end_date==start_date:
-                    msg = 'El evento se acaba el mismo día, no puede acabar antes de la hora de inicio'
+                    msg = 'The event ends the same day, the start time can\'t greater than end time'
                     self._errors['end_time'] = self.error_class([msg])
                     del cleaned_data['end_time']
             
@@ -93,14 +81,14 @@ class EventModelForm(forms.ModelForm):
     def clean_start_date(self):
         start_date = self.cleaned_data.get('start_date')
         if start_date < date.today():
-            raise forms.ValidationError("El evento no puede empezar antes de hoy")
+            raise forms.ValidationError("The event can\'t start in past")
         return start_date
 
     def clean_start_time(self):
         start_date = self.cleaned_data.get('start_date')        
         start_time = self.cleaned_data.get('start_time')
         if start_time < localtime(now()).time() and start_date == date.today():
-            raise forms.ValidationError("El evento empieza hoy, no puede empezar antes de la hora actual")
+            raise forms.ValidationError("The event starts today, can\'t start before now")
         return start_time
 
 

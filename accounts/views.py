@@ -135,6 +135,7 @@ def view_event_history(request):
     context['event_history'] = user_detail.event_history.all()
     return render(request, 'accounts/view_event_history.html',context)
 
+
 @login_required
 def user_profile(request):
     """Renders the user's profile"""
