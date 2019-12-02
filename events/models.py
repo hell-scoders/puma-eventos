@@ -30,11 +30,12 @@ class Event(models.Model):
     end_time = models.TimeField('Hora en que termina el evento',
                                 null=True, blank=True)
     capacity = models.IntegerField('Capacidad del evento')
-    invitations= models.ManyToManyField(User,related_name="invitations")
+    invitations= models.ManyToManyField(User,related_name='invitations')
     host = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              verbose_name='Persona o entidad que es host del evento')
     tags = models.ManyToManyField(Tag)
+    staff= models.ManyToManyField(User, related_name='staff_event')
     parent_event = models.ForeignKey('self',
                                      on_delete=models.CASCADE,
                                      verbose_name='Evento originario',

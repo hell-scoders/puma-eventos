@@ -6,7 +6,7 @@
 	<div class="container mt-3">
         <div class="section-header">
           <h2>{{ object.title}}</h2>
-          <p>Organizado por {{ object.host }}</p>
+          <p>Organized by {{ object.host }}</p>
         </div>
 
         <div class="row">
@@ -18,10 +18,10 @@
             <div class="details">
               <h2 class="lead">{{ object.start_date }}</h2>
               <p>{{ object.description }}</p>
-              <p> Fecha inicio: {{ object.start_date }}</p>
-              <p> Fecha fin: {{ object.end_date }}</p>
-              <p> Hora: {{ object.start_time}} </p>
-              <p> Capacidad: {{ object.capacity}} personas</p>
+              <p> Start date: {{ object.start_date }}</p>
+              <p> End date: {{ object.end_date }}</p>
+              <p> Hour: {{ object.start_time}} </p>
+              <p> Capacity: {{ object.capacity}} people</p>
 							<ul class="list-inline">
   							<li class="list-inline-item">
 									{% post_to_facebook object_or_url "<button type='button' class='btn btn-outline-success' title='Compartir en facebook'><i class='fab fa-facebook-f'></i></button>"%}
@@ -34,8 +34,8 @@
 								</li>
 							</ul>
 				 {% if user == object.host %}
-								<a class="btn btn-info" href="{% url 'events:update' object.id %}" role="button">Editar</a>
-								<a class="btn btn-danger" href="{% url 'events:delete' object.id %}" role="button">Eliminar</a>
+								<a class="btn btn-info" href="{% url 'events:update' object.id %}" role="button">Edit</a>
+								<a class="btn btn-danger" href="{% url 'events:delete' object.id %}" role="button">Delete</a>
 				{% endif %}
             </div>
           </div>
@@ -45,9 +45,21 @@
         </div>
         </div>
 				<div>
-					<strong>Etiquetas:</strong> 
+					<strong>Tags:</strong> 
 						{% for i in object.tags.all %} 
 							{{ i.name }}
+								{% endfor %}
+				</div>
+				<div>
+					<strong>Assistants:</strong> 
+						{% for i in object.invitations.all %} 
+							{{ i.email }}
+								{% endfor %}
+				</div>
+				<div>
+					<strong>Staff:</strong> 
+						{% for i in object.staff.all %} 
+							{{ i.email }}
 								{% endfor %}
 				</div>
       </div>
