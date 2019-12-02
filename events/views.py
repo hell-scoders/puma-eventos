@@ -9,7 +9,19 @@ from .models import Event, Tag
 
 from .forms import EventModelForm, TagModelForm
 from django.urls import reverse, reverse_lazy 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404,redirect,render
+
+from pyzbar.pyzbar import decode
+from PIL import Image
+
+import qrcode
+
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from email.mime.image import MIMEImage
+
+from accounts.models import UserDetail
+import os
 
 class EventListView(ListView):
     queryset = Event.objects.all()
@@ -79,3 +91,44 @@ class TagUpdateView(BSModalCreateView):
     form_class = TagModelForm
     success_message='Tag created'
     success_url = reverse_lazy('events:list')
+    
+def logo_data(img_location):
+    logo = MIMEImage(open(img_location,"rb").read(), _subtype="jpg")
+    logo.add_header('Content-ID', '<invitation_qr>')
+    return logo
+
+def generate_qr_code(event_id,uid):
+    qr=qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+            )
+    qr.add_data('events/'+str(event_id)+'/invitation/'+str(uid))
+    qr.make(fit=True)
+    img=qr.make_image()
+    img_location="media/events/"+str(event_id)+"/invitation/"+str(uid)+".jpg"
+    img.save(img_location)
+    return img_location
+
+def send_invitation_mail(event_id,uid,user_detail):
+    img_location=generate_qr_code(event_id,uid)
+    subject="Invitation to event. Info-puma"
+    mail_to = user_detail.user.email
+    from_email = os.environ['EMAIL_HOST_USER']
+    html_message=render_to_string('events/mail_invitation.html')
+    msg=EmailMultiAlternatives(subject,html_message,from_email,[mail_to])
+    msg.attach_alternative(html_message,"text/html")
+    msg.attach(logo_data(img_location))
+    msg.send()
+
+def invitation(request,pk):
+    event=Event.objects.get(id=pk)
+    context= dict()
+    context['result']="Full capped event. Cannot issue invitation :("
+    if(event.capacity>event.invitations.count()):
+        user_detail = UserDetail.objects.get(user_id=request.user.pk)
+        send_invitation_mail(pk,request.user.pk,user_detail)
+        context['result']="Check your mail for your qr code. :)"
+        event.invitations.add(user_detail.user)
+    return render(request,'events/invitation_confirmation.html',context)

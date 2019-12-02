@@ -33,6 +33,7 @@
 									{% post_to_linkedin object.title object_or_url "<button type='button' class='btn btn-outline-success' title='Compartir en linkedin'><i class='fab fa-linkedin-in'></i></button>" %}
 								</li>
 							</ul>
+				<a class="btn btn-info" href="{% url 'events:invitation' object.id%}" role="button">Get invitation</a>
 				 {% if user == object.host %}
 								<a class="btn btn-info" href="{% url 'events:update' object.id %}" role="button">Edit</a>
 								<a class="btn btn-danger" href="{% url 'events:delete' object.id %}" role="button">Delete</a>

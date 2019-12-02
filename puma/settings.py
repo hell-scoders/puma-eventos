@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'mapwidgets',
     # first party
     'events',
-    'accounts.apps.AccountsConfig',
+    'accounts',
+    #'accounts.apps.AccountsConfig',
     #'events.apps.EventsConfig'
 ]
 
